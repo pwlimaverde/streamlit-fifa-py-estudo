@@ -1,0 +1,50 @@
+[project]
+name = "streamlit-fifa-py-estudo"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "pwlimaverde", email = "pwlimaverde@gmail.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "py-return-success-or-error>=0.5.2",
+    "python-dotenv>=1.0.1",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "autopep8>=1.6.0",
+    "blue>=0.9.1",
+    "isort>=6.0.0",
+    "pytest>=8.3.4",
+    "pytest-cov>=6.0.0",
+    "rich>=13.9.4",
+    "ruff>=0.9.4",
+    "taskipy>=1.14.1",
+]
+doc = [
+    "mkdocs>=1.6.1",
+    "mkdocs-material>=9.6.1",
+    "mkdocstrings>=0.27.0",
+    "mkdocstrings-python>=1.13.0",
+]
+
+[tool.autopep8]
+max-line-length = 79
+aggressive = 3
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+line_length = 79
+
+[tool.ruff]
+exclude = ["__init__.py"]
