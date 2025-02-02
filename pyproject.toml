@@ -1,15 +1,18 @@
 [project]
 name = "streamlit-fifa-py-estudo"
-version = "0.1.0"
-description = "Add your description here"
+version = "0.2.0"
+description = "Projeto de estudo de Streamlit com dados de FIFA"
 readme = "README.md"
 authors = [
     { name = "pwlimaverde", email = "pwlimaverde@gmail.com" }
 ]
 requires-python = ">=3.13"
 dependencies = [
+    "pandas>=2.2.3",
+    "pandas-stubs>=2.2.3.241126",
     "py-return-success-or-error>=0.5.2",
     "python-dotenv>=1.0.1",
+    "streamlit>=1.41.1",
 ]
 
 [build-system]
@@ -23,6 +26,7 @@ dev = [
     "isort>=6.0.0",
     "pytest>=8.3.4",
     "pytest-cov>=6.0.0",
+    "pytest-mock>=3.14.0",
     "rich>=13.9.4",
     "ruff>=0.9.4",
     "taskipy>=1.14.1",
