@@ -2,7 +2,6 @@ from io import BytesIO
 from pathlib import Path
 from typing import Optional
 
-import numpy as np
 import pandas as pd
 
 from streamlit_fifa_py_estudo.app.utils.consts import PASTA_DATASETS
@@ -34,7 +33,7 @@ def validate_fifa_csv(bytes_csv: bytes) -> tuple[bool, Optional[str]]:
         'Real Face': 'object',
         'Position': 'object',
         'Joined': 'object',
-        'Loaned From': 'object',
+        'Loaned From': 'float64',
         'Contract Valid Until': 'float64',
         'Height(cm.)': 'float64',
         'Weight(lbs.)': 'float64',
@@ -45,7 +44,7 @@ def validate_fifa_csv(bytes_csv: bytes) -> tuple[bool, Optional[str]]:
 
     try:
         df = pd.read_csv(BytesIO(bytes_csv))
-        df['Height(cm.)'] = pd.to_numeric(df['Height(cm.)']).astype(np.float64)
+
         # Verifica colunas presentes
         missing_cols = set(expected_columns.keys()) - set(df.columns)
         if missing_cols:
@@ -66,8 +65,7 @@ def validate_fifa_csv(bytes_csv: bytes) -> tuple[bool, Optional[str]]:
 class SalvarBytesCsvFifaDatasource(SCFData):
     def __call__(self, parameters: SaveCsvParameters) -> Path:
         """Carrega um arquivo CSV com dados de jogadores do FIFA 23"""
-        print()
-        print('******inicio data*******')
+
         is_valid, error_msg = validate_fifa_csv(parameters.bytes_csv)
         print(is_valid)
         print(error_msg)

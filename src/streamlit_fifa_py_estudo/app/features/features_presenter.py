@@ -54,10 +54,7 @@ class FeaturesPresenter:
         return list_fifa_players
 
     def salvar_csv_fifa(self, csv_name: str, bytes_csv: bytes) -> Path:
-        print()
-        print('*************')
-        print(csv_name)
-        print(type(bytes_csv))
+
         error: SaveCsvFifaError = SaveCsvFifaError()
         parameters: SaveCsvParameters = SaveCsvParameters(
             error=error, csv_name=csv_name, bytes_csv=bytes_csv
