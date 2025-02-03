@@ -20,6 +20,7 @@ def teams():
         'age',
         'photo',
         'flag',
+        'nationality',
         'overall',
         'value',
         'wage_formatted',

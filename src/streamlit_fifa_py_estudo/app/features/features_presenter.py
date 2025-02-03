@@ -10,8 +10,21 @@ from streamlit_fifa_py_estudo.app.features.ler_csv_fifa.datasource.load_csv_pand
     LoadCsvPandasDatasource, )
 from streamlit_fifa_py_estudo.app.features.ler_csv_fifa.domain.usecase.ler_csv_fifa_usecase import (
     LerCsvFifaUseCase, )
-from streamlit_fifa_py_estudo.app.utils.erros import LoadCsvFifaError
-from streamlit_fifa_py_estudo.app.utils.parameters import LoadCsvParameters
+from streamlit_fifa_py_estudo.app.features.salvar_bytes_csv_fifa.datasource.salvar_bytes_csv_fifa_datasource import (
+    SalvarBytesCsvFifaDatasource, )
+from streamlit_fifa_py_estudo.app.features.salvar_bytes_csv_fifa.domain.usecase.salvar_bytes_csv_fifa_usecase import (
+    SalvarBytesCsvFifaUsecase, )
+from streamlit_fifa_py_estudo.app.utils.erros import LoadCsvFifaError, SaveCsvFifaError
+from streamlit_fifa_py_estudo.app.utils.parameters import (
+    LoadCsvParameters,
+    SaveCsvParameters,
+)
+from streamlit_fifa_py_estudo.app.utils.types import (
+    LCFData,
+    LCFUsecase,
+    SCFData,
+    SCFUsecase,
+)
 
 
 class FeaturesPresenter:
@@ -22,10 +35,11 @@ class FeaturesPresenter:
         if not path.exists():
             raise FileNotFoundError(f"Arquivo não encontrado: {file_path}")
 
-        error = LoadCsvFifaError()
-        parameters = LoadCsvParameters(error=error, file_path=str(path))
-        dataSource = LoadCsvPandasDatasource()
-        usecase = LerCsvFifaUseCase(dataSource)
+        error: LoadCsvFifaError = LoadCsvFifaError()
+        parameters: LoadCsvParameters = LoadCsvParameters(
+            error=error, file_path=str(path))
+        dataSource: LCFData = LoadCsvPandasDatasource()
+        usecase: LCFUsecase = LerCsvFifaUseCase(dataSource)
 
         data = usecase.runNewThread(parameters)
         list_fifa_players: List[dict] = []
@@ -38,3 +52,23 @@ class FeaturesPresenter:
             raise data.result
 
         return list_fifa_players
+
+    def salvar_csv_fifa(self, csv_name: str, bytes_csv: bytes) -> Path:
+
+        error: SaveCsvFifaError = SaveCsvFifaError()
+        parameters: SaveCsvParameters = SaveCsvParameters(
+            error=error, csv_name=csv_name, bytes_csv=bytes_csv
+        )
+        dataSource: SCFData = SalvarBytesCsvFifaDatasource()
+        usecase: SCFUsecase = SalvarBytesCsvFifaUsecase(dataSource)
+
+        data = usecase.runNewThread(parameters)
+        path = Path()
+
+        if isinstance(data, SuccessReturn):
+            path = data.result
+
+        if isinstance(data, ErrorReturn):
+            raise data.result
+
+        return path

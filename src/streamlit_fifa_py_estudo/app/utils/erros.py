@@ -15,3 +15,16 @@ class LoadCsvFifaError(AppError):
                 str: A representação em string do erro genérico.
         """
         return f'LoadCsvFifaError - {self.message}'
+
+@dataclass
+class SaveCsvFifaError(AppError):
+    """Classe de erro para LoadCsvFifa"""
+    message: str = 'Erro ao salvar o arquivo CSV'
+
+    def __str__(self) -> str:
+        """Retorna a representação em string do erro genérico.
+
+        Returns:
+                str: A representação em string do erro genérico.
+        """
+        return f'SaveCsvFifaError - {self.message}'
