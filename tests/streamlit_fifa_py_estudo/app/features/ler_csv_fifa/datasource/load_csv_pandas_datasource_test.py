@@ -15,7 +15,7 @@ def test_load_csv_pandas_datasource_with_mock_data():
     # Arrange
     error = LoadCsvFifaError()
     parameters = LoadCsvParameters(
-        file_path='c:/PROJETOS/PYTHON/APPS/asimov/tests/asimov/projetos/streamlit_fifa/app/features/ler_csv_fifa/datasource/mock_data.csv',
+        file_path='C:/PROJETOS/PYTHON/APPS/streamlit-fifa-py-estudo/tests/streamlit_fifa_py_estudo/app/datasets/mock_data.csv',
         error=error)
 
     # Act
