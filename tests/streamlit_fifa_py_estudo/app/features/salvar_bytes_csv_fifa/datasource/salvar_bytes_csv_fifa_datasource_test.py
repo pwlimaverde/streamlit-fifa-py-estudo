@@ -10,17 +10,10 @@ from streamlit_fifa_py_estudo.app.utils.parameters import SaveCsvParameters
 
 @pytest.fixture(scope="function", autouse=True)
 def cleanup_fifa_mock():
-    print("\nIniciando fixture de limpeza...")
     yield
     mock_file = PASTA_DATASETS / "fifa_mock.csv"
-    print("\nExecutando limpeza após teste...")
-    print(f"Verificando arquivo: {mock_file}")
-    print(f"Arquivo existe? {mock_file.exists()}")
     if mock_file.exists():
         mock_file.unlink()
-        print(f"Arquivo removido: {mock_file}")
-    else:
-        print("Arquivo não encontrado para remoção")
 
 
 def get_mock_bytes_fifa() -> bytes:

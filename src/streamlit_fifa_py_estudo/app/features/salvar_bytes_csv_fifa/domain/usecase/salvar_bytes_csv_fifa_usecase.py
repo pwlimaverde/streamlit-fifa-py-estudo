@@ -15,7 +15,6 @@ class SalvarBytesCsvFifaUsecase(SCFUsecase):
             self,
             parameters: SaveCsvParameters) -> ReturnSuccessOrError[Path]:
         try:
-
             return self._resultDatasource(
                 parameters=parameters, datasource=self._datasource
             )

@@ -23,4 +23,5 @@ class SaveCsvParameters(ParametersReturnResult):
     error: SaveCsvFifaError
 
     def __str__(self) -> str:
-        return self.__repr__()
+        return "SaveCsvParameters(error={}, csv_name='{}'".format(
+            self.error, self.csv_name)
