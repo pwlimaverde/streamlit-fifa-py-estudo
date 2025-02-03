@@ -18,32 +18,24 @@ def validate_fifa_csv(bytes_csv: bytes) -> tuple[bool, Optional[str]]:
         'Nationality': 'object',
         'Flag': 'object',
         'Overall': 'int64',
-        'Potential': 'int64',
         'Club': 'object',
         'Club Logo': 'object',
         'Value(£)': 'float64',
         'Wage(£)': 'float64',
-        'Special': 'int64',
-        'Preferred Foot': 'object',
-        'International Reputation': 'float64',
-        'Weak Foot': 'float64',
-        'Skill Moves': 'float64',
-        'Work Rate': 'object',
-        'Body Type': 'object',
-        'Real Face': 'object',
         'Position': 'object',
         'Joined': 'object',
-        'Loaned From': 'float64',
         'Contract Valid Until': 'float64',
         'Height(cm.)': 'float64',
         'Weight(lbs.)': 'float64',
         'Release Clause(£)': 'float64',
-        'Best Overall Rating': 'float64',
-        'Year_Joined': 'int64'
     }
 
     try:
         df = pd.read_csv(BytesIO(bytes_csv))
+        if 'Height(cm.)' in df.columns:
+            df['Height(cm.)'] = df['Height(cm.)'].astype(float)
+        if 'Weight(lbs.)' in df.columns:
+            df['Weight(lbs.)'] = df['Weight(lbs.)'].astype(float)
 
         # Verifica colunas presentes
         missing_cols = set(expected_columns.keys()) - set(df.columns)
@@ -56,7 +48,7 @@ def validate_fifa_csv(bytes_csv: bytes) -> tuple[bool, Optional[str]]:
                 return False, f"Coluna {col} tem tipo {
                     df[col].dtype}, esperado {expected_type}"
 
-        return True, None
+        return True, 'Capos esperados presentes e com tipos corretos'
 
     except Exception as e:
         return False, f"Erro ao ler CSV: {str(e)}"
