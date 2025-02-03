@@ -1,5 +1,3 @@
-
-
 from typing import List
 
 import pandas as pd
@@ -58,10 +56,10 @@ def upload_data():
 
             atualizar_lista_arquivos()
 
-            st.sidebar.success("Arquivo salvo com sucesso!")
+            st.toast("Arquivo salvo com sucesso!", icon="✅")
 
         except Exception as e:
-            st.sidebar.error(f"Erro ao salvar arquivo: {str(e)}")
+            st.toast(f"Erro ao salvar arquivo: {str(e)}", icon="❌")
 
 
 def main():

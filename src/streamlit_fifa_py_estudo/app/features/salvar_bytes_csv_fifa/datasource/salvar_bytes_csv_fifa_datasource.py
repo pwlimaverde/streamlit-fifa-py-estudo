@@ -59,8 +59,6 @@ class SalvarBytesCsvFifaDatasource(SCFData):
         """Carrega um arquivo CSV com dados de jogadores do FIFA 23"""
 
         is_valid, error_msg = validate_fifa_csv(parameters.bytes_csv)
-        print(is_valid)
-        print(error_msg)
         if not is_valid:
             raise ValueError(f"CSV inválido: {error_msg}")
         PASTA_DATASETS.mkdir(exist_ok=True)
