@@ -1,3 +1,18 @@
+"""Home page do aplicativo FIFA 23 Dataset.
+
+Este módulo implementa a página inicial do aplicativo Streamlit que apresenta 
+o dataset FIFA 23, fornecendo uma descrição geral dos dados e acesso ao Kaggle.
+
+Attributes:
+    st (streamlit): Módulo Streamlit para criação da interface
+    we (webbrowser): Módulo para abrir URLs no navegador
+
+Example:
+    Para executar esta página diretamente:
+    ```bash
+    streamlit run home.py
+    ```
+"""
 import webbrowser as we
 
 import streamlit as st
