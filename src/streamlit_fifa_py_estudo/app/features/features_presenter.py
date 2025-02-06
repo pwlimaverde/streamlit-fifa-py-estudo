@@ -28,8 +28,37 @@ from streamlit_fifa_py_estudo.app.utils.types import (
 
 
 class FeaturesPresenter:
+    """Classe responsável pela instanciação e execução dos casos de uso.
+    
+    Esta classe atua como uma fachada para os diferentes casos de uso da aplicação,
+    gerenciando suas instâncias e chamadas de métodos.
+
+    Attributes:
+        Não possui atributos próprios.
+    """
 
     def ler_csv_fifa(self, file_path: str) -> List[dict]:
+        """Executa o caso de uso de leitura de arquivo CSV do FIFA.
+
+        Realiza a validação do caminho do arquivo e executa o caso de uso
+        para carregar os dados dos jogadores do FIFA.
+
+        Args:
+            file_path (str): Caminho completo para o arquivo CSV.
+
+        Returns:
+            List[dict]: Lista de dicionários contendo os dados dos jogadores.
+
+        Raises:
+            FileNotFoundError: Se o arquivo especificado não for encontrado.
+            LoadCsvFifaError: Se ocorrer erro durante o carregamento do CSV.
+
+        Example:
+            ```python
+            presenter = FeaturesPresenter()
+            players = presenter.ler_csv_fifa("data/fifa23.csv")
+            ```
+        """
 
         path = Path(file_path)
         if not path.exists():
@@ -54,7 +83,29 @@ class FeaturesPresenter:
         return list_fifa_players
 
     def salvar_csv_fifa(self, csv_name: str, bytes_csv: bytes) -> Path:
+        """Executa o caso de uso de salvamento de arquivo CSV do FIFA.
 
+        Recebe os bytes do arquivo CSV e um nome, realiza a validação e salva
+        o arquivo no sistema de arquivos.
+
+        Args:
+            csv_name (str): Nome do arquivo CSV a ser salvo (sem extensão)
+            bytes_csv (bytes): Conteúdo do arquivo CSV em formato bytes
+
+        Returns:
+            Path: Caminho completo do arquivo salvo
+
+        Raises:
+            SaveCsvFifaError: Se ocorrer erro durante o salvamento do CSV
+
+        Example:
+            ```python
+            presenter = FeaturesPresenter()
+            with open('fifa23.csv', 'rb') as f:
+                bytes_data = f.read()
+                path = presenter.salvar_csv_fifa("novo_fifa", bytes_data)
+            ```
+        """
         error: SaveCsvFifaError = SaveCsvFifaError()
         parameters: SaveCsvParameters = SaveCsvParameters(
             error=error, csv_name=csv_name, bytes_csv=bytes_csv

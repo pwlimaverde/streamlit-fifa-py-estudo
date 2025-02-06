@@ -3,10 +3,28 @@ import streamlit as st
 
 
 def format_currency(value):
+    # ajuste na formatação do valor
     return value / 1e3
 
-def teams():
 
+def teams():
+    """Renderiza a página de visualização de times.
+
+    Cria uma interface que permite:
+    - Selecionar um clube na barra lateral
+    - Visualizar uma tabela interativa com os jogadores do clube
+    - Ver métricas e estatísticas do clube selecionado
+
+    A tabela inclui:
+    - Fotos dos jogadores
+    - Bandeiras dos países
+    - Barras de progresso para salários
+    - Dados formatados de valor de mercado
+
+    Returns:
+        None
+    """
+    # Configuração da tabela de jogadores
     df_data = pd.DataFrame(st.session_state.data)
 
     clubes = df_data['club'].unique()
