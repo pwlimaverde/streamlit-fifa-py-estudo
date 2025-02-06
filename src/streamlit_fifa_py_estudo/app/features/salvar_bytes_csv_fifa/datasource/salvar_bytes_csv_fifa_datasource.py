@@ -10,6 +10,29 @@ from streamlit_fifa_py_estudo.app.utils.types import SCFData
 
 
 def validate_fifa_csv(bytes_csv: bytes) -> tuple[bool, Optional[str]]:
+    """Valida se um arquivo CSV em bytes contém os dados esperados de jogadores FIFA.
+
+    Verifica se o CSV possui as colunas necessárias com os tipos de dados corretos
+    para ser considerado um arquivo válido de dados de jogadores FIFA.
+
+    Args:
+        bytes_csv (bytes): Conteúdo do arquivo CSV em formato bytes.
+
+    Returns:
+        tuple[bool, Optional[str]]: Uma tupla contendo:
+            - bool: True se o arquivo é válido, False caso contrário
+            - Optional[str]: Mensagem de erro se houver falha na validação, 
+              None se o arquivo for válido
+
+    Example:
+        ```python
+        with open('fifa23.csv', 'rb') as f:
+            bytes_data = f.read()
+            is_valid, error = validate_fifa_csv(bytes_data)
+            if not is_valid:
+                print(f"Erro na validação: {error}")
+        ```
+    """
     expected_columns = {
         'ID': 'int64',
         'Name': 'object',
@@ -55,12 +78,45 @@ def validate_fifa_csv(bytes_csv: bytes) -> tuple[bool, Optional[str]]:
 
 
 class SalvarBytesCsvFifaDatasource(SCFData):
-    def __call__(self, parameters: SaveCsvParameters) -> Path:
-        """Carrega um arquivo CSV com dados de jogadores do FIFA 23"""
+    """Classe para salvar dados de jogadores FIFA recebidos em formato bytes.
 
+    Esta classe implementa a interface SCFData e é responsável por validar e 
+    salvar os dados do FIFA recebidos em formato bytes em um arquivo CSV.
+
+    Attributes:
+        Não possui atributos próprios.
+    """
+
+    def __call__(self, parameters: SaveCsvParameters) -> Path:
+        """Salva os dados em bytes como um arquivo CSV.
+
+        Valida se os dados recebidos são um CSV válido de jogadores FIFA e
+        salva em arquivo na pasta de datasets.
+
+        Args:
+            parameters (SaveCsvParameters): Parâmetros contendo os bytes do CSV
+                e o nome do arquivo a ser salvo.
+
+        Returns:
+            Path: Caminho completo do arquivo CSV salvo.
+
+        Raises:
+            ValueError: Se os dados do CSV forem inválidos.
+
+        Example:
+            ```python
+            datasource = SalvarBytesCsvFifaDatasource()
+            params = SaveCsvParameters(
+                bytes_csv=csv_bytes,
+                csv_name="fifa23_players"
+            )
+            file_path = datasource(params)
+            ```
+        """
         is_valid, error_msg = validate_fifa_csv(parameters.bytes_csv)
         if not is_valid:
             raise ValueError(f"CSV inválido: {error_msg}")
+        
         PASTA_DATASETS.mkdir(exist_ok=True)
         path = PASTA_DATASETS / f'{parameters.csv_name}.csv'
 

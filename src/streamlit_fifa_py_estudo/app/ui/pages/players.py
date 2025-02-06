@@ -1,20 +1,48 @@
+"""Página de visualização de detalhes dos jogadores por time.
+
+Este módulo implementa a interface para exibir estatísticas e informações
+detalhadas sobre jogadores selecionados por time no FIFA 23.
+
+Functions:
+    format_currency(value: float) -> str: Formata valores monetários
+    inject_custom_css(): Injeta estilos CSS personalizados na página
+"""
+
 import pandas as pd
 import streamlit as st
 
+def format_currency(value: float) -> str:
+    """Formata valores monetários para exibição em formato compacto.
 
-def format_currency(value):
-    """Formata valores monetários para formato compacto"""
-    if value >= 1e9:  # bilhões
+    Converte valores numéricos para notação abreviada com sufixos B (bilhões),
+    M (milhões) ou K (milhares).
+
+    Args:
+        value (float): Valor monetário a ser formatado
+
+    Returns:
+        str: String formatada com o valor e sufixo apropriado
+
+    Example:
+        ```python
+        print(format_currency(1500000))  # Output: £1.50M
+        ```
+    """
+    if value >= 1e9:  
         return f"£{value / 1e9:.2f}B"
-    elif value >= 1e6:  # milhões
+    elif value >= 1e6:  
         return f"£{value / 1e6:.2f}M"
-    elif value >= 1e3:  # milhares
+    elif value >= 1e3:  
         return f"£{value / 1e3:.2f}K"
     else:
         return f"£{value:.0f}"
 
-
 def inject_custom_css():
+    """Injeta estilos CSS personalizados na página Streamlit.
+
+    Adiciona regras CSS para customizar a aparência dos componentes,
+    especialmente os containers de métricas e seus rótulos.
+    """
     st.markdown(
         """
         <style>
@@ -42,6 +70,19 @@ def inject_custom_css():
 
 
 def responsive_metric(container, label, value):
+    """Exibe um card de métrica personalizado.
+
+    Args:
+        container: Container Streamlit onde a métrica será exibida
+        label (str): Rótulo descritivo da métrica
+        value (str): Valor formatado da métrica
+
+    Example:
+        ```python
+        col1 = st.columns(1)[0]
+        display_metric(col1, "Valor", "£10M")
+        ```
+    """
     inject_custom_css()
     container.markdown(f"""
         <div class="metric-container">
@@ -52,7 +93,21 @@ def responsive_metric(container, label, value):
 
 
 def players():
+    """Renderiza a página de detalhes dos jogadores.
+    
+    Cria uma interface interativa que permite:
+    - Selecionar um clube na barra lateral
+    - Escolher um jogador do clube selecionado
+    - Visualizar foto, informações e métricas do jogador
 
+    Utiliza:
+    - Dados carregados na session_state
+    - Componentes Streamlit (selectbox, columns, markdown)
+    - Cards de métricas customizados
+
+    Returns:
+        None
+    """
     df_data = pd.DataFrame(st.session_state.data)
 
     clubes = df_data['club'].unique()

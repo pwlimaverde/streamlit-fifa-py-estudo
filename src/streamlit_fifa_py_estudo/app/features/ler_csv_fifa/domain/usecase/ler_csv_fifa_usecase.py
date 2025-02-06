@@ -15,9 +15,42 @@ from streamlit_fifa_py_estudo.app.utils.types import LCFUsecase
 
 
 class LerCsvFifaUseCase(LCFUsecase):
+    """Caso de uso para leitura e processamento de dados de jogadores do FIFA 23 de um CSV.
+
+    Esta classe implementa a lógica de negócio para carregar dados de jogadores,
+    aplicar filtros e ordenação, e converter os resultados em dicionários.
+
+    Attributes:
+        _datasource (LCFData): Fonte de dados que implementa a interface LCFData.
+    """
+
     def __call__(
             self, parameters: LoadCsvParameters) -> ReturnSuccessOrError[List[dict]]:
-        """Carrega um arquivo CSV com dados de jogadores do FIFA 23"""
+        """Executa o caso de uso de leitura do CSV.
+
+        Carrega os dados do CSV, aplica filtros para remover jogadores inativos
+        ou com overall 0, ordena por overall e converte para dicionários.
+
+        Args:
+            parameters (LoadCsvParameters): Parâmetros para carregamento do CSV,
+                incluindo o caminho do arquivo.
+
+        Returns:
+            ReturnSuccessOrError[List[dict]]:
+                Em caso de sucesso: SuccessReturn contendo lista de dicionários com dados dos jogadores.
+                Em caso de erro: ErrorReturn contendo detalhes do erro ocorrido.
+
+        Example:
+            ```python
+            usecase = LerCsvFifaUseCase(datasource)
+            params = LoadCsvParameters(file_path="fifa23.csv")
+            result = usecase(params)
+            if isinstance(result, SuccessReturn):
+                players = result.result
+            ```
+        """
+        # class responsável pelo tratamento da lista List[FifaPlayer] que vem
+        # do datasource
         try:
             result_dict: List[dict] = []
             result = self._resultDatasource(
